@@ -10,7 +10,7 @@ class Scanner:
     def __init__(self):
         self.start_date_obj = parse("2008-08-01T00:00:00.000")
         self.end_date_obj = parse("2022-12-01T00:00:00.000")
-        self.io_path = r"C:\Users\irmo\PycharmProjects\SO_New\IO_Files\Questions\\"
+        self.io_path = r"C:\Users\irmo\PycharmProjects\SO_Bugs\I_O\\"
         self.month_delta = relativedelta(months=1)
 
     def iterate_dates(self):
@@ -34,7 +34,11 @@ class Scanner:
         month_posts = tools.load_pickle(self.io_path + "Parsed stuff/" + c_year + "\\" + c_year + "-" + c_month)
         pattern = r"(?<![^\W\d_])bug(?![^\W\d_])|([^\w\s]|^)bug([^\w\s]|$)"
         for post in month_posts:
-            a = re.search(pattern, post[5])
+            a = None
+            if post[0] == "1":
+                a = re.search(pattern, post[5])
+            if post[0] == "2":
+                a = re.search(pattern, post[4])
             if a != None:
                 bug_list.append(post)
         tools.save_pickle(self.io_path + "Posts with bug/" + c_year + "/"
@@ -71,5 +75,5 @@ class Scanner:
 
 if __name__ == "__main__":
     bug_scanner = Scanner()
-    # bug_scanner.iterate_dates()
+    bug_scanner.iterate_dates()
     bug_scanner.count_bugs()
