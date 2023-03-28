@@ -80,6 +80,7 @@ class TagBugMatcher:
 
     def match_bug_and_tag(self):
         current_date_obj = self.start_date_obj
+        vidited_questions = set()
         while current_date_obj <= self.end_date_obj:
             print(current_date_obj.strftime("%Y-%m"))
             current_year = current_date_obj.strftime("%Y")
@@ -99,12 +100,16 @@ class TagBugMatcher:
 
                 if b_post[0] == "2":
                     result = self.collection.find_one({"Q_id": int(b_post[2])})
-                    post_id = b_post[3]
-                    score = int(b_post[6])
-                    date_obj = parse(b_post[5])
-                    self.save_to_tag_dict(result, post_id, score, date_obj)
-                    print()
+                    if result:
+                        post_id = b_post[3]
+                        score = int(b_post[6])
+                        date_obj = parse(b_post[5])
+                        try:
+                            self.save_to_tag_dict(result["Tags"], post_id, score, date_obj)
+                        except Exception as e:
+                            print()
             current_date_obj += self.month_delta
+        tools.save_pickle(self.io_path + "Posts with bug/tag_to_info", self.tag_to_info)
 
 
 if __name__ == "__main__":
@@ -112,6 +117,7 @@ if __name__ == "__main__":
     # archiver.create_tag_database()
     # a = tools.load_pickle(r"C:\Users\irmo\PycharmProjects\SO_New\IO_Files\Questions\Archives\Qid_to_tag_list")
     # input("a")
-    matcher = TagBugMatcher()
-    matcher.match_bug_and_tag()
+    # matcher = TagBugMatcher()
+    # matcher.match_bug_and_tag()
+    a = tools.load_pickle(r"C:\Users\irmo\PycharmProjects\SO_Bugs\I_O\Posts with bug\tag_to_info")
     print()
