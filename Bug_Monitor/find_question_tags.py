@@ -55,6 +55,7 @@ class TagBugMatcher:
         self.client = MongoClient('localhost', 27017)
         self.db = self.client.Archive
         self.collection = self.db.Q_ids_to_tags
+        self.wait = None
 
 
     @staticmethod
@@ -110,6 +111,10 @@ class TagBugMatcher:
                             print()
             current_date_obj += self.month_delta
         tools.save_pickle(self.io_path + "Posts with bug/tag_to_info", self.tag_to_info)
+
+    def bug_timeseries(self):
+        self.wait = 0
+        print()
 
 
 if __name__ == "__main__":
