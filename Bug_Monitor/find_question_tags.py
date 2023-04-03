@@ -125,4 +125,5 @@ if __name__ == "__main__":
     # matcher = TagBugMatcher()
     # matcher.match_bug_and_tag()
     # a = tools.load_pickle(r"C:\Users\irmo\PycharmProjects\SO_Bugs\I_O\Posts with bug\tag_to_info")
+    b = tools.load_pickle(r"C:\Users\irmo\PycharmProjects\SO_Bugs\I_O\Posts with bug\2022\2022-2")
     print()
